@@ -6,13 +6,13 @@ $xjax=new xajax();
 $xjax->register(XAJAX_FUNCTION, 'miVoto');
 function miVoto($cantidad, $idPr, $idUs){
     $resp=new xajaxResponse();
-    $voto = new Voto();   
-    
+    $voto = new Voto();
+
     if (!$voto->isValido($idPr, $idUs)) {
         $resp->setReturnValue(false);
     } else {
         $voto->insertarVoto($cantidad, $idPr, $idUs);
-        $resp->setReturnValue(true);
+        $resp->setReturnValue($voto->mediaProducto($idPr));
     }
     return $resp;
 }
@@ -23,33 +23,33 @@ function pintarEstrellas(){
     $resp=new xajaxResponse();
     $voto = new Voto();
     $resultado = $voto->pintarEstrellas();
-    
-    foreach ($resultado as $key => $value) {
+
+    foreach ($resultado as $value) {
         $id = $value['id'];
-        $mediaVotos = $value['mediaVotos'];
-        $numVotos = $value['numVotos'];
+        $mediaVotos = (float) $value['mediaVotos'];
+        $numVotos = (int) $value['numVotos'];
         $innerHTML = '';
-        if($numVotos == 0){
+
+        if($numVotos === 0){
             $innerHTML = 'Sin valoración';
         }else{
-            $innerHTML .= '<p>' . $numVotos . ' valoraciones: ';
-            if(floor($mediaVotos) != $mediaVotos){
-                for ($i=0; $i < $mediaVotos - 1; $i++) { 
-                    $innerHTML .= '<i class="fas fa-star"></i>';
-                }
-                $decimal = $mediaVotos - floor($mediaVotos);
-                if($decimal >= 0.5){
-                    $innerHTML .= '<i class="fas fa-star-half"></i>';
-                }
-            }else{
-                for ($i=0; $i < $mediaVotos; $i++) { 
-                    $innerHTML .= '<i class="fas fa-star"></i>';
-                }
+            $etiqueta = ($numVotos === 1) ? 'valoración' : 'valoraciones';
+            $innerHTML .= '<p>' . $numVotos . ' ' . $etiqueta . ': ';
+
+            $estrellasCompletas = (int) floor($mediaVotos);
+            $media = ($mediaVotos - $estrellasCompletas) >= 0.5;
+
+            for ($i = 0; $i < $estrellasCompletas; $i++) {
+                $innerHTML .= '<i class="fas fa-star"></i>';
+            }
+
+            if ($media) {
+                $innerHTML .= '<i class="fas fa-star-half-alt"></i>';
             }
 
             $innerHTML .= '</p>';
         }
-        $resp->assign("votos_" . $id, "innerHTML", $innerHTML);
+        $resp->assign('votos_' . $id, 'innerHTML', $innerHTML);
     }
 
     $resp->setReturnValue(true);
