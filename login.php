@@ -20,7 +20,7 @@ $xajax->processRequest();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!--Fontawesome CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <title>Formulario JAXON</title>
+    <title>Login</title>
     <?php $xajax->printJavascript(); ?>
     <script type="text/javascript" src="validar.js"></script>
 
@@ -32,7 +32,7 @@ $xajax->processRequest();
         <div class="d-flex justify-content-center h-100">
             <div class="card" style='width:24rem;'>
                 <div class="card-header">
-                    <h3><i class="fa fa-cog mr-1"></i>Registro</h3>
+                    <h3><i class="fa fa-user-lock mr-1"></i>Login</h3>
                 </div>
                 <div class="card-body">
                     <form name='miForm' id="miForm" method='POST' action="listado.php" onsubmit="return envForm();">
@@ -50,7 +50,7 @@ $xajax->processRequest();
                             <input type="password" class="form-control" placeholder="contraseña" id='pass' name='pass'>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Registrar" class="btn float-right btn-info" name='enviar' id="enviar">
+                            <input type="submit" value="Acceder" class="btn float-right btn-info" name='enviar' id="enviar">
                         </div>
                     </form>
                 </div>

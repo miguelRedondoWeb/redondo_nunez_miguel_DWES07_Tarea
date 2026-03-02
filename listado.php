@@ -88,7 +88,7 @@ $xajax->processRequest();
                    <input type="button" value="Votar" class="btn btn-info" name='votar' id="enviar" onclick="envFormVoto(xajax.getFormValues('miForm_{$item->id}'))" />
                   </div>
                 </div>
-              </form
+              </form>
              </td>
              </tr>
             END;
