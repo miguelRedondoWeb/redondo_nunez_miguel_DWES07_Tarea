@@ -34,9 +34,6 @@ $xajax->processRequest();
     <?php $xajax->printJavascript(); ?>
     <script type="text/javascript" src="validar.js"></script>
     
-    <script>
-      xajax_pintarEstrellas();        
-    </script>
 </head>
 <body style="background:gainsboro">
 <div class="float float-right d-inline-flex mt-2">
@@ -73,7 +70,6 @@ $xajax->processRequest();
              <td>
               <form name='miForm' id="miForm_{$item->id}" method='POST' action="listado.php" >
                 <input name="idPr" type="hidden" value="{$item->id}">
-                <input name="idUs" type="hidden" value="{$_SESSION['usu']}">
                 <div class="row">
                   <div class="col">
                    <select class="form-control" name="cantidad">
@@ -88,7 +84,7 @@ $xajax->processRequest();
                    <input type="button" value="Votar" class="btn btn-info" name='votar' id="enviar" onclick="envFormVoto(xajax.getFormValues('miForm_{$item->id}'))" />
                   </div>
                 </div>
-              </form
+              </form>
              </td>
              </tr>
             END;
@@ -96,5 +92,10 @@ $xajax->processRequest();
       ?>
   </tbody>
 </table>
+<script>
+  window.onload = function () {
+    xajax_pintarEstrellas();
+  };
+</script>
 </body>
 </html>

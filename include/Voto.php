@@ -43,6 +43,21 @@ class Voto extends Conexion
         return true;
     }
 
+
+    public function mediaProducto($idPr)
+    {
+        $consulta = "select IFNULL(sum(cantidad) / count(*), 0) as media from votos where idPr=:idPr";
+        $stmt = Conexion::$conexion->prepare($consulta);
+        try {
+            $stmt->execute([
+                ':idPr' => $idPr
+            ]);
+        } catch (\PDOException $ex) {
+            die("Error al consultar usuario: " . $ex->getMessage());
+        }
+        return $stmt->fetchColumn();
+    }
+
     function pintarEstrellas() {
         $consulta = "select p.id, ";
         $consulta .= "IFNULL(sum(cantidad) / count(*), 0) as mediaVotos, ";

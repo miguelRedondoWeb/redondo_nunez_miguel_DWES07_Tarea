@@ -4,15 +4,18 @@ require_once 'xajax_core/xajax.inc.php';
 
 $xjax=new xajax();
 $xjax->register(XAJAX_FUNCTION, 'miVoto');
-function miVoto($cantidad, $idPr, $idUs){
+function miVoto($cantidad, $idPr){
     $resp=new xajaxResponse();
-    $voto = new Voto();   
-    
+    session_start();
+    $idUs = $_SESSION['usu'];
+    $voto = new Voto();
+
     if (!$voto->isValido($idPr, $idUs)) {
         $resp->setReturnValue(false);
     } else {
         $voto->insertarVoto($cantidad, $idPr, $idUs);
-        $resp->setReturnValue(true);
+        $media = $voto->mediaProducto($idPr);
+        $resp->setReturnValue($media);
     }
     return $resp;
 }
@@ -33,18 +36,12 @@ function pintarEstrellas(){
             $innerHTML = 'Sin valoración';
         }else{
             $innerHTML .= '<p>' . $numVotos . ' valoraciones: ';
-            if(floor($mediaVotos) != $mediaVotos){
-                for ($i=0; $i < $mediaVotos - 1; $i++) { 
-                    $innerHTML .= '<i class="fas fa-star"></i>';
-                }
-                $decimal = $mediaVotos - floor($mediaVotos);
-                if($decimal >= 0.5){
-                    $innerHTML .= '<i class="fas fa-star-half"></i>';
-                }
-            }else{
-                for ($i=0; $i < $mediaVotos; $i++) { 
-                    $innerHTML .= '<i class="fas fa-star"></i>';
-                }
+            $enteras = floor($mediaVotos);
+            for ($i = 0; $i < $enteras; $i++) {
+                $innerHTML .= '<i class="fas fa-star"></i>';
+            }
+            if (($mediaVotos - $enteras) >= 0.5) {
+                $innerHTML .= '<i class="fas fa-star-half"></i>';
             }
 
             $innerHTML .= '</p>';
