@@ -43,6 +43,21 @@ class Voto extends Conexion
         return true;
     }
 
+    public function mediaProducto($idPr)
+    {
+        $consulta = "SELECT IFNULL(AVG(cantidad), 0) AS media FROM votos WHERE idPr = :idPr";
+        $stmt = Conexion::$conexion->prepare($consulta);
+        try {
+            $stmt->execute([
+                ':idPr' => $idPr
+            ]);
+        } catch (\PDOException $ex) {
+            die("Error al consultar votos: " . $ex->getMessage());
+        }
+
+        return (float) $stmt->fetchColumn();
+    }
+
     function pintarEstrellas() {
         $consulta = "select p.id, ";
         $consulta .= "IFNULL(sum(cantidad) / count(*), 0) as mediaVotos, ";
