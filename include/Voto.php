@@ -44,10 +44,9 @@ class Voto extends Conexion
     }
 
 
-
     public function mediaProducto($idPr)
     {
-        $consulta = "select IFNULL(round(sum(cantidad) / count(*), 2), 0) as media from votos where idPr=:idPr";
+        $consulta = "select IFNULL(sum(cantidad) / count(*), 0) as media from votos where idPr=:idPr";
         $stmt = Conexion::$conexion->prepare($consulta);
         try {
             $stmt->execute([
@@ -56,9 +55,7 @@ class Voto extends Conexion
         } catch (\PDOException $ex) {
             die("Error al consultar usuario: " . $ex->getMessage());
         }
-
-        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-        return (float) $fila['media'];
+        return $stmt->fetchColumn();
     }
 
     function pintarEstrellas() {

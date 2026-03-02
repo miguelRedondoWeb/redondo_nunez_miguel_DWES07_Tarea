@@ -2,12 +2,14 @@
 require 'Voto.php';
 require_once 'xajax_core/xajax.inc.php';
 
-$xajax = new xajax();
-$xajax->register(XAJAX_FUNCTION, 'miVoto');
-function miVoto($cantidad, $idPr, $idUs){
+$xjax=new xajax();
+$xjax->register(XAJAX_FUNCTION, 'miVoto');
+function miVoto($cantidad, $idPr){
     $resp=new xajaxResponse();
-    $voto = new Voto();   
-    
+    session_start();
+    $idUs = $_SESSION['usu'];
+    $voto = new Voto();
+
     if (!$voto->isValido($idPr, $idUs)) {
         $resp->setReturnValue(false);
     } else {
@@ -34,9 +36,12 @@ function pintarEstrellas(){
             $innerHTML = 'Sin valoración';
         }else{
             $innerHTML .= '<p>' . $numVotos . ' valoraciones: ';
-            $estrellasCompletas = floor($mediaVotos);
-            for ($i = 0; $i < $estrellasCompletas; $i++) {
+            $enteras = floor($mediaVotos);
+            for ($i = 0; $i < $enteras; $i++) {
                 $innerHTML .= '<i class="fas fa-star"></i>';
+            }
+            if (($mediaVotos - $enteras) >= 0.5) {
+                $innerHTML .= '<i class="fas fa-star-half"></i>';
             }
 
             $decimal = $mediaVotos - $estrellasCompletas;

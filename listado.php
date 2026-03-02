@@ -70,7 +70,6 @@ $xajax->processRequest();
              <td>
               <form name='miForm' id="miForm_{$item->id}" method='POST' action="listado.php" >
                 <input name="idPr" type="hidden" value="{$item->id}">
-                <input name="idUs" type="hidden" value="{$_SESSION['usu']}">
                 <div class="row">
                   <div class="col">
                    <select class="form-control" name="cantidad">

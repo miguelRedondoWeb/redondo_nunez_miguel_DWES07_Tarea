@@ -7,8 +7,8 @@ function envForm() {
 }
 
 function envFormVoto(form){
-    var res = xajax.request({xjxfun: 'miVoto'}, {mode: 'synchronous', parameters: [form['cantidad'], form['idPr'], form['idUs']]});
-    if (res === false) {
+    var res = xajax.request({xjxfun: 'miVoto'}, {mode: 'synchronous', parameters: [form['cantidad'], form['idPr']]});
+    if(res==false){
         alert("Ya has votado este producto");
     }else{
         xajax.request({xjxfun: 'pintarEstrellas'}, {mode: 'synchronous', parameters: []});
