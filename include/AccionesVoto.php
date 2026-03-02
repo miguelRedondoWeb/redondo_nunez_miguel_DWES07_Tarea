@@ -30,7 +30,7 @@ function pintarEstrellas(){
         $numVotos = $value['numVotos'];
         $innerHTML = '';
         if($numVotos == 0){
-            $innerHTML = 'Sin valoración';
+            $innerHTML = 'Sin valorar';
         }else{
             $innerHTML .= '<p>' . $numVotos . ' valoraciones: ';
             if(floor($mediaVotos) != $mediaVotos){
