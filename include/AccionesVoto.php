@@ -21,7 +21,7 @@ function miVoto($cantidad, $idPr){
 }
 
 
-$xjax->register(XAJAX_FUNCTION, 'pintarEstrellas');
+$xajax->register(XAJAX_FUNCTION, 'pintarEstrellas');
 function pintarEstrellas(){
     $resp=new xajaxResponse();
     $voto = new Voto();
@@ -44,6 +44,17 @@ function pintarEstrellas(){
                 $innerHTML .= '<i class="fas fa-star-half"></i>';
             }
 
+            $decimal = $mediaVotos - $estrellasCompletas;
+            if($decimal >= 0.5){
+                $innerHTML .= '<i class="fas fa-star-half-alt"></i>';
+                $estrellasCompletas++;
+            }
+
+            for ($i = $estrellasCompletas; $i < 5; $i++) {
+                $innerHTML .= '<i class="far fa-star"></i>';
+            }
+
+
             $innerHTML .= '</p>';
         }
         $resp->assign("votos_" . $id, "innerHTML", $innerHTML);
@@ -55,4 +66,4 @@ function pintarEstrellas(){
 
 }
 
-$xjax->processRequest();
+$xajax->processRequest();
