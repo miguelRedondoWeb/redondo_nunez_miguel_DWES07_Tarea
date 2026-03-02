@@ -2,8 +2,8 @@
 require 'Voto.php';
 require_once 'xajax_core/xajax.inc.php';
 
-$xjax=new xajax();
-$xjax->register(XAJAX_FUNCTION, 'miVoto');
+$xajax = new xajax();
+$xajax->register(XAJAX_FUNCTION, 'miVoto');
 function miVoto($cantidad, $idPr, $idUs){
     $resp=new xajaxResponse();
     $voto = new Voto();   
@@ -12,13 +12,14 @@ function miVoto($cantidad, $idPr, $idUs){
         $resp->setReturnValue(false);
     } else {
         $voto->insertarVoto($cantidad, $idPr, $idUs);
-        $resp->setReturnValue(true);
+        $media = $voto->mediaProducto($idPr);
+        $resp->setReturnValue($media);
     }
     return $resp;
 }
 
 
-$xjax->register(XAJAX_FUNCTION, 'pintarEstrellas');
+$xajax->register(XAJAX_FUNCTION, 'pintarEstrellas');
 function pintarEstrellas(){
     $resp=new xajaxResponse();
     $voto = new Voto();
@@ -33,19 +34,21 @@ function pintarEstrellas(){
             $innerHTML = 'Sin valoración';
         }else{
             $innerHTML .= '<p>' . $numVotos . ' valoraciones: ';
-            if(floor($mediaVotos) != $mediaVotos){
-                for ($i=0; $i < $mediaVotos - 1; $i++) { 
-                    $innerHTML .= '<i class="fas fa-star"></i>';
-                }
-                $decimal = $mediaVotos - floor($mediaVotos);
-                if($decimal >= 0.5){
-                    $innerHTML .= '<i class="fas fa-star-half"></i>';
-                }
-            }else{
-                for ($i=0; $i < $mediaVotos; $i++) { 
-                    $innerHTML .= '<i class="fas fa-star"></i>';
-                }
+            $estrellasCompletas = floor($mediaVotos);
+            for ($i = 0; $i < $estrellasCompletas; $i++) {
+                $innerHTML .= '<i class="fas fa-star"></i>';
             }
+
+            $decimal = $mediaVotos - $estrellasCompletas;
+            if($decimal >= 0.5){
+                $innerHTML .= '<i class="fas fa-star-half-alt"></i>';
+                $estrellasCompletas++;
+            }
+
+            for ($i = $estrellasCompletas; $i < 5; $i++) {
+                $innerHTML .= '<i class="far fa-star"></i>';
+            }
+
 
             $innerHTML .= '</p>';
         }
@@ -58,4 +61,4 @@ function pintarEstrellas(){
 
 }
 
-$xjax->processRequest();
+$xajax->processRequest();
